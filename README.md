@@ -169,7 +169,7 @@ Requisitos: Node 20.19+ (ou 22.12+/24+) e um PostgreSQL (use o Supabase ou o `do
 
 ```bash
 npm install
-cp server/.env.example server/.env        # edite o arquivo antes de iniciar o servidor
+cp server/.env.example server/.env        # use PUBLIC_URL=http://localhost:5173 no desenvolvimento
 # opção A: PostgreSQL local com Docker
 docker compose up -d                       # use DATABASE_URL=postgresql://sipat:sipat@localhost:5433/sipat
 # para fotos em disco no desenvolvimento: STORAGE_DRIVER=local
