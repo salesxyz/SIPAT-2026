@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-sipat-gray font-sans text-sipat-ink antialiased; }
+  h1, h2, h3 { @apply font-display tracking-tight text-sipat-dark; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-sipat; outline-style: solid; }
+}
+
+@layer components {
+  .btn { @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-semibold transition active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn-primary { @apply btn bg-sipat text-white shadow-card hover:bg-sipat-dark; }
+  .btn-secondary { @apply btn bg-white text-sipat-dark ring-1 ring-inset ring-sipat/30 hover:bg-sipat-light; }
+  .btn-ghost { @apply btn text-sipat-dark hover:bg-sipat-light; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700; }
+  .card { @apply rounded-3xl bg-white shadow-card; }
+  .field { @apply w-full rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-gray-400 focus:border-sipat focus:ring-4 focus:ring-sipat/15; }
+  .label { @apply mb-1.5 block text-sm font-semibold text-sipat-dark; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold; }
+}
+
+/* Moldura de visor de câmera: marca visual do projeto (QR Code → foto) */
+.viewfinder { position: relative; }
+.viewfinder::before, .viewfinder::after, .viewfinder > .vf-b::before, .viewfinder > .vf-b::after {
+  content: ""; position: absolute; width: 28px; height: 28px; border: 0 solid currentColor; pointer-events: none;
+}
+.viewfinder::before { top: 0; left: 0; border-top-width: 4px; border-left-width: 4px; border-top-left-radius: 14px; }
+.viewfinder::after { top: 0; right: 0; border-top-width: 4px; border-right-width: 4px; border-top-right-radius: 14px; }
+.viewfinder > .vf-b::before { bottom: 0; left: 0; border-bottom-width: 4px; border-left-width: 4px; border-bottom-left-radius: 14px; }
+.viewfinder > .vf-b::after { bottom: 0; right: 0; border-bottom-width: 4px; border-right-width: 4px; border-bottom-right-radius: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}

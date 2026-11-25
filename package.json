@@ -1,0 +1,16 @@
+{
+  "name": "sipat-photo-drive",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["server", "web"],
+  "scripts": {
+    "dev:server": "npm run dev -w server",
+    "dev:web": "npm run dev -w web",
+    "build": "npm run build -w web && npm run build -w server",
+    "start": "npm run start -w server",
+    "migrate": "npm run migrate -w server",
+    "seed": "npm run seed -w server",
+    "test": "npm test -w server"
+  },
+  "engines": { "node": "^20.19.0 || ^22.12.0 || >=24.0.0" }
+}

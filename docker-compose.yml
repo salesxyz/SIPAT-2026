@@ -1,0 +1,12 @@
+# PostgreSQL local para desenvolvimento: docker compose up -d
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: sipat
+      POSTGRES_PASSWORD: sipat
+      POSTGRES_DB: sipat
+    ports: ["5433:5432"]
+    volumes: [sipat-pgdata:/var/lib/postgresql/data]
+volumes:
+  sipat-pgdata:

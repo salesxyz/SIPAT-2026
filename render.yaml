@@ -1,0 +1,35 @@
+# Render Blueprint — cria o serviço web. Preencha as variáveis marcadas (sync: false) no painel da Render.
+services:
+  - type: web
+    name: sipat-photo-drive
+    runtime: node
+    plan: starter            # "free" também funciona, mas hiberna após inatividade (ruim em dia de evento)
+    region: oregon
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      - key: STORAGE_DRIVER
+        value: supabase
+      - key: SUPABASE_BUCKET
+        value: sipat-photos
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: ADMIN_NAME
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: PUBLIC_URL
+        sync: false          # ex.: https://sipat-photo-drive.onrender.com (ou seu domínio)
