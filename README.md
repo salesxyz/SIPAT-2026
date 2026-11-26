@@ -8,7 +8,7 @@ Os administradores gerenciam eventos, álbuns, QR Codes e fotos em um painel pro
 
 | Área | Funcionalidades |
 |---|---|
-| **Participante** (sem login) | Lê o QR Code e cai na tela de envio do evento certo · abre a câmera traseira (API MediaDevices) com alternativa `input capture="environment"` · escolhe fotos da galeria do aparelho · pré-visualiza, refaz ou descarta · envia várias fotos com barra de progresso · mensagens de erro para permissão da câmera, conexão e arquivo inválido |
+| **Participante** (sem login) | Lê o QR Code e cai na tela de envio do evento certo · abre a câmera com alternância entre lentes frontal e traseira (API MediaDevices) · oferece fallbacks nativos `capture="environment"` e `capture="user"` · escolhe fotos da galeria do aparelho · pré-visualiza, refaz ou descarta · envia várias fotos com barra de progresso · mensagens de erro para permissão da câmera, conexão e arquivo inválido |
 | **Galeria** (estilo Drive) | Grade ou lista · miniaturas · visualização ampliada com navegação · download · álbuns como pastas · ordenação (recentes, antigas, nome) · pesquisa por nome · contador de fotos · carregamento progressivo · compartilhar link do álbum |
 | **Painel admin** | Login por e-mail e senha · dashboard (eventos, fotos, álbuns, armazenamento, últimos envios) · CRUD de eventos e álbuns · QR Code exclusivo por evento com download em PNG · gerar novo QR (invalida o anterior) · ativar/desativar recebimento · ver, baixar e excluir fotos (individual e em lote) · ZIP de um álbum · configurações de rodapé, aviso de privacidade e retenção |
 | **Segurança e LGPD** | Veja a seção "Segurança" abaixo |

@@ -18,7 +18,7 @@ function cameraErrorMessage(e: unknown): string {
   return "Não foi possível abrir a câmera. Use o botão “Câmera do celular” ou escolha da galeria.";
 }
 
-function CameraView({ onCapture, onClose, onNative, count }: { onCapture: (b: Blob) => void; onClose: () => void; onNative: () => void; count: number }) {
+function CameraView({ onCapture, onClose, onNative, count }: { onCapture: (b: Blob) => void; onClose: () => void; onNative: (facing: "environment" | "user") => void; count: number }) {
   const video = useRef<HTMLVideoElement>(null);
   const stream = useRef<MediaStream | null>(null);
   const [facing, setFacing] = useState<"environment" | "user">("environment");
@@ -65,7 +65,7 @@ function CameraView({ onCapture, onClose, onNative, count }: { onCapture: (b: Bl
 
       <div className="relative min-h-0 flex-1">
         {/* O <video> fica sempre montado: recriá-lo perderia o stream da câmera após "Refazer". */}
-        <video ref={video} playsInline muted autoPlay className={`h-full w-full object-cover ${shot || error ? "invisible" : ""}`} />
+        <video ref={video} playsInline muted autoPlay className={`h-full w-full object-cover ${facing === "user" ? "scale-x-[-1]" : ""} ${shot || error ? "invisible" : ""}`} />
         {!shot && !error && (
           <>
             <div className="viewfinder pointer-events-none absolute inset-8 text-white/90" aria-hidden><span className="vf-b" /></div>
@@ -78,7 +78,10 @@ function CameraView({ onCapture, onClose, onNative, count }: { onCapture: (b: Bl
             <div className="max-w-sm space-y-4">
               <AlertTriangle className="mx-auto text-amber-300" size={40} />
               <p className="text-sm leading-relaxed text-white/90">{error}</p>
-              <button className="btn-primary w-full" onClick={onNative}><Camera size={18} />Câmera do celular</button>
+              <div className="grid gap-2 sm:grid-cols-2">
+                <button className="btn-primary w-full" onClick={() => onNative("environment")}><Camera size={18} />Câmera traseira</button>
+                <button className="btn-secondary w-full" onClick={() => onNative("user")}><Camera size={18} />Câmera frontal</button>
+              </div>
               <button className="btn w-full bg-white/15 text-white" onClick={onClose}>Voltar</button>
             </div>
           </div>
@@ -117,7 +120,8 @@ export default function Upload() {
   const [cameraOpen, setCameraOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [sentCount, setSentCount] = useState(0);
-  const nativeCam = useRef<HTMLInputElement>(null);
+  const nativeRearCam = useRef<HTMLInputElement>(null);
+  const nativeFrontCam = useRef<HTMLInputElement>(null);
   const pick = useRef<HTMLInputElement>(null);
   const itemsRef = useRef(items);
   itemsRef.current = items;
@@ -173,7 +177,8 @@ export default function Upload() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-6 sm:py-10">
-      <input ref={nativeCam} type="file" accept="image/*" capture="environment" hidden onChange={(e) => { onFiles(e.target.files); e.target.value = ""; setCameraOpen(false); }} />
+      <input ref={nativeRearCam} type="file" accept="image/*" capture="environment" hidden onChange={(e) => { onFiles(e.target.files); e.target.value = ""; setCameraOpen(false); }} />
+      <input ref={nativeFrontCam} type="file" accept="image/*" capture="user" hidden onChange={(e) => { onFiles(e.target.files); e.target.value = ""; setCameraOpen(false); }} />
       <input ref={pick} type="file" accept="image/jpeg,image/png,image/webp,image/*" multiple hidden onChange={(e) => { onFiles(e.target.files); e.target.value = ""; }} />
 
       <div className="card overflow-hidden">
@@ -259,7 +264,7 @@ export default function Upload() {
         <CameraView
           count={items.filter((i) => i.status !== "done").length}
           onClose={() => setCameraOpen(false)}
-          onNative={() => nativeCam.current?.click()}
+          onNative={(facing) => (facing === "user" ? nativeFrontCam : nativeRearCam).current?.click()}
           onCapture={(blob) => add([{ blob, name: `foto-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.jpg` }])}
         />
       )}
